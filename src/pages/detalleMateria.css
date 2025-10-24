@@ -1,0 +1,124 @@
+.detalle-materia-container {
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.detalle-materia-container h2,
+.detalle-materia-container h3,
+.detalle-materia-container h4 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.detalle-materia-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.detalle-materia-container th,
+.detalle-materia-container td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.detalle-materia-container thead {
+  background-color: #07254F;
+  color: white;
+}
+
+.detalle-materia-container tbody tr:nth-child(even) {
+  background-color: #f2f6f9;
+}
+
+.detalle-materia-container tbody tr:hover {
+  background-color: #eaf3fb;
+}
+
+.detalle-materia-container button {
+  background-color: #07254F;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.detalle-materia-container button:hover {
+  background-color: #04152c;
+}
+
+.volver-btn {
+  background-color: #6c757d;
+  margin-bottom: 20px;
+}
+
+.volver-btn:hover {
+  background-color: #5a6268;
+}
+
+.detalle-materia-container .profesor-section button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.profesor-section {
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+
+.qr-container {
+  margin: 20px auto;
+  padding: 15px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.clases-list {
+  margin-top: 20px;
+  padding-left: 20px;
+}
+
+.clases-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.clases-list li button {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  width: 80px;
+}
+
+.boton-centrado {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.no-alumnos {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
+}
