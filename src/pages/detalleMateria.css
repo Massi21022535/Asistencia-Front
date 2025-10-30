@@ -175,19 +175,3 @@
 .modal-buttons button:hover {
   background-color: #04152c;
 }
-
-.exportar-btn {
-  background-color: #1e7e34;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-  margin-bottom: 15px;
-}
-
-.exportar-btn:hover {
-  background-color: #145723;
-}

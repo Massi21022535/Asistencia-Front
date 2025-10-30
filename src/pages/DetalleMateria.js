@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom"; //para obtener el id de la ruta (comision)
 import api from "../services/api";
 import { QRCodeCanvas } from "qrcode.react"; //libreria para renderizar qr
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 import "./detalleMateria.css";
 
 function DetalleMateria({ rol }) {
@@ -110,6 +112,35 @@ const crearClaseManual = async (contenido) => {
   }
 };
 
+const exportarExcelMateria = () => {
+  if (alumnos.length === 0) {
+    alert("No hay datos para exportar");
+    return;
+  }
+
+  // Crear los datos para exportar
+  const datos = alumnos.map((a) => ({
+    Apellido: a.apellido,
+    Nombre: a.nombres,
+    Asistencias: a.presentes,
+    "Total de clases": a.total,
+    "Porcentaje de asistencia": `${a.porcentaje}%`,
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(datos);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, "Asistencias Materia");
+
+  // Nombre dinámico: materia_ID.xlsx
+  const nombreArchivo = `asistencias_materia_${id}.xlsx`;
+
+  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const blob = new Blob([excelBuffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+  saveAs(blob, nombreArchivo);
+};
+
   return (
     <div className="detalle-materia-container">
       <button className="volver-btn" onClick={() => navigate(-1)}>
@@ -140,6 +171,10 @@ const crearClaseManual = async (contenido) => {
           ))}
         </tbody>
       </table>
+
+      <button className= "exportar-btn" onClick={exportarExcelMateria}>
+        Exportar a Excel
+      </button>
 
       {/* funcionalidad solo para profesor */}
       {rol === "profesor" && (
