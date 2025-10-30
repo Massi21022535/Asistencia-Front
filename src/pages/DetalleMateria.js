@@ -13,6 +13,7 @@ function DetalleMateria({ rol }) {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const navigate = useNavigate(); //para volver atras
+  const [contenido, setContenido] = useState("");
 
   // cargar alumnos con su porcentaje de asistencia
   useEffect(() => {
@@ -42,10 +43,9 @@ function DetalleMateria({ rol }) {
   // listo las clases creadas para esa comision y las actualizo
   const fetchClases = async () => {
     try {
-      const res = await api.get(
-        `/profesor/comisiones/${id}/clases`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await api.get(`/profesor/comisiones/${id}/clases`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setClases(res.data);
     } catch (err) {
       console.error("Error cargando clases:", err);
@@ -58,10 +58,11 @@ function DetalleMateria({ rol }) {
       const res = await api.post(
         //llamo al endpoint que crea la clase en backend, guardo el token y devuelvo la url completa
         `/profesor/comisiones/${id}/clases`,
-        {},
+        { contenido },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setQrUrl(res.data.qr_url);
+      setContenido("");
       fetchClases(); // refresco listado
     } catch (err) {
       console.error("Error creando clase:", err);
@@ -73,10 +74,9 @@ function DetalleMateria({ rol }) {
     //eliminar una clase de una comision
     if (!window.confirm("¿Queres eliminar esta clase?")) return;
     try {
-      await api.delete(
-        `/profesor/comisiones/${id}/clases/${claseId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      await api.delete(`/profesor/comisiones/${id}/clases/${claseId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
       fetchClases();
     } catch (err) {
@@ -84,28 +84,28 @@ function DetalleMateria({ rol }) {
       alert("Error al eliminar la clase");
     }
   };
-  
+
   // Crear clase y tomar asistencia manual
-const crearClaseManual = async () => {
-  try {
-    const res = await api.post(
-      `/profesor/comisiones/${id}/clases`,
-      { manual: true },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+  const crearClaseManual = async () => {
+    try {
+      const res = await api.post(
+        `/profesor/comisiones/${id}/clases`,
+        { manual: true, contenido },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-    const nuevaClaseId = res.data.clase_id;
-    if (!nuevaClaseId) {
-      alert("Error: no se pudo crear la clase manual");
-      return;
+      const nuevaClaseId = res.data.clase_id;
+      if (!nuevaClaseId) {
+        alert("Error: no se pudo crear la clase manual");
+        return;
+      }
+
+      navigate(`/asistencia-manual/${id}/${nuevaClaseId}`);
+    } catch (err) {
+      console.error("Error creando clase manual:", err);
+      alert("Error al crear clase para asistencia manual");
     }
-
-    navigate(`/asistencia-manual/${id}/${nuevaClaseId}`);
-  } catch (err) {
-    console.error("Error creando clase manual:", err);
-    alert("Error al crear clase para asistencia manual");
-  }
-};
+  };
 
   return (
     <div className="detalle-materia-container">
@@ -142,9 +142,25 @@ const crearClaseManual = async () => {
       {rol === "profesor" && (
         <div className="profesor-section">
           <h3>Crear nueva clase</h3>
+
+          <textarea
+            value={contenido}
+            onChange={(e) => setContenido(e.target.value)}
+            placeholder="Ingrese los contenidos trabajados en esta clase..."
+            rows="3"
+            style={{
+              width: "100%",
+              padding: "10px",
+              borderRadius: "6px",
+              border: "1px solid #ccc",
+              marginBottom: "10px",
+            }}
+          />
           <button onClick={crearClase}>Crear clase y mostrar código QR</button>
-          
-          <button onClick={crearClaseManual}>Crear clase y tomar asistencia manual</button>
+
+          <button onClick={crearClaseManual}>
+            Crear clase y tomar asistencia manual
+          </button>
 
           {qrUrl && (
             <div className="qr-container">
@@ -158,6 +174,11 @@ const crearClaseManual = async () => {
             {clases.map((c) => (
               <li key={c.id}>
                 Clase - {new Date(c.fecha).toLocaleDateString()}
+                {c.contenido && (
+                  <span style={{ fontsize: "0.9em", color: "#555"}}>
+                    Contenidos: {c.contenido}
+                    </span>
+                )}
                 <button onClick={() => eliminarClase(c.id)}>Eliminar</button>
               </li>
             ))}
