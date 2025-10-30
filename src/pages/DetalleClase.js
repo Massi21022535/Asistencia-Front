@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import "./detalleMateria.css"; // reutilizamos los estilos
 
 function DetalleClase() {
   const { id } = useParams(); // id de la clase
@@ -30,10 +31,13 @@ function DetalleClase() {
   if (loading) return <p>Cargando detalles...</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <button onClick={() => navigate(-1)}>⬅ Volver</button>
+    <div className="detalle-materia-container">
+      <button className="volver-btn" onClick={() => navigate(-1)}>
+        Volver
+      </button>
       <h2>Detalles de la clase</h2>
-      <table border="1" cellPadding="6" style={{ width: "100%", marginTop: "10px" }}>
+
+      <table>
         <thead>
           <tr>
             <th>Apellido</th>
@@ -46,7 +50,13 @@ function DetalleClase() {
             <tr key={a.id}>
               <td>{a.apellido}</td>
               <td>{a.nombres}</td>
-              <td style={{ textAlign: "center" }}>
+              <td
+                style={{
+                  textAlign: "center",
+                  color: a.presente ? "green" : "red",
+                  fontWeight: "bold",
+                }}
+              >
                 {a.presente ? "Presente" : "Ausente"}
               </td>
             </tr>
