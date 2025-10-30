@@ -175,3 +175,7 @@
 .modal-buttons button:hover {
   background-color: #04152c;
 }
+
+.exportar-btn {
+  margin-top: 10px;
+}
