@@ -33,6 +33,7 @@ function App() {
               element={<DetalleMateria rol={rol} />}
             />
             <Route path="/asistencia-manual/:id/:claseId" element={<AsistenciaManual />} />
+            <Route path="/clases/:id/detalle" element={<DetalleClase />} />
             <Route
               path="/"
               element={
