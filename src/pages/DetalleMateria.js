@@ -13,7 +13,9 @@ function DetalleMateria({ rol }) {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const navigate = useNavigate(); //para volver atras
-  const [contenido, setContenido] = useState("");
+  const [mostrarModal, setMostrarModal ] = useState(false);
+  const [contenidoClase, setContenidoClase] = useState("");
+  const [tipoClase, setTipoClase] = useState(null);
 
   // cargar alumnos con su porcentaje de asistencia
   useEffect(() => {
@@ -62,7 +64,6 @@ function DetalleMateria({ rol }) {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setQrUrl(res.data.qr_url);
-      setContenido("");
       fetchClases(); // refresco listado
     } catch (err) {
       console.error("Error creando clase:", err);
@@ -86,7 +87,7 @@ function DetalleMateria({ rol }) {
   };
 
   // Crear clase y tomar asistencia manual
-  const crearClaseManual = async () => {
+  const crearClaseManual = async (contenido) => {
     try {
       const res = await api.post(
         `/profesor/comisiones/${id}/clases`,
@@ -143,24 +144,54 @@ function DetalleMateria({ rol }) {
         <div className="profesor-section">
           <h3>Crear nueva clase</h3>
 
-          <textarea
-            value={contenido}
-            onChange={(e) => setContenido(e.target.value)}
-            placeholder="Ingrese los contenidos trabajados en esta clase..."
-            rows="3"
-            style={{
-              width: "100%",
-              padding: "10px",
-              borderRadius: "6px",
-              border: "1px solid #ccc",
-              marginBottom: "10px",
+          <button
+            onClick={() => {
+              setTipoClase("qr");
+              setMostrarModal(true);
             }}
-          />
-          <button onClick={crearClase}>Crear clase y mostrar código QR</button>
+          >
+            Crear clase y mostrar código QR
+          </button>
 
-          <button onClick={crearClaseManual}>
+          <button
+            onClick={() => {
+              setTipoClase("manual");
+              setMostrarModal(true);
+            }}
+            style={{ marginLeft: "10px" }}
+          >
             Crear clase y tomar asistencia manual
           </button>
+
+          {mostrarModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <h3>Ingresá los contenidos de la clase</h3>
+                <textarea
+                  rows="4"
+                  value={contenidoClase}
+                  onChange={(e) => setContenidoClase(e.target.value)}
+                />
+
+                <div className="modal-buttons">
+                  <button
+                    onClick={() => {
+                      if (tipoClase === "manual")
+                        crearClaseManual(contenidoClase);
+                      else crearClase(contenidoClase);
+                      setMostrarModal(false);
+                      setContenidoClase("");
+                    }}
+                  >
+                    Confirmar
+                  </button>
+                  <button onClick={() => setMostrarModal(false)}>
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {qrUrl && (
             <div className="qr-container">
@@ -174,11 +205,6 @@ function DetalleMateria({ rol }) {
             {clases.map((c) => (
               <li key={c.id}>
                 Clase - {new Date(c.fecha).toLocaleDateString()}
-                {c.contenido && (
-                  <span style={{ fontsize: "0.9em", color: "#555"}}>
-                    Contenidos: {c.contenido}
-                    </span>
-                )}
                 <button onClick={() => eliminarClase(c.id)}>Eliminar</button>
               </li>
             ))}

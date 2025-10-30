@@ -122,3 +122,42 @@
   font-style: italic;
   padding: 20px;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.modal-content textarea {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 14px;
+  resize: none;
+}
+
+.modal-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
