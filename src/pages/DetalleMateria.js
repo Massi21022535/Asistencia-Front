@@ -55,7 +55,7 @@ function DetalleMateria({ rol }) {
   };
 
   // crear nueva clase y generar QR (solo profesor)
-  const crearClase = async () => {
+  const crearClase = async (contenido) => {
     try {
       const res = await api.post(
         //llamo al endpoint que crea la clase en backend, guardo el token y devuelvo la url completa
