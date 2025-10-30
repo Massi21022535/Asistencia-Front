@@ -13,7 +13,7 @@ function DetalleMateria({ rol }) {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
   const navigate = useNavigate(); //para volver atras
-  const [mostrarModal, setMostrarModal ] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
   const [contenidoClase, setContenidoClase] = useState("");
   const [tipoClase, setTipoClase] = useState(null);
 
@@ -172,13 +172,14 @@ function DetalleMateria({ rol }) {
                   value={contenidoClase}
                   onChange={(e) => setContenidoClase(e.target.value)}
                 />
-
                 <div className="modal-buttons">
                   <button
                     onClick={() => {
-                      if (tipoClase === "manual")
+                      if (tipoClase === "manual") {
                         crearClaseManual(contenidoClase);
-                      else crearClase(contenidoClase);
+                      } else {
+                        crearClase(contenidoClase);
+                      }
                       setMostrarModal(false);
                       setContenidoClase("");
                     }}
