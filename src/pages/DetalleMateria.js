@@ -45,9 +45,10 @@ function DetalleMateria({ rol }) {
   // listo las clases creadas para esa comision y las actualizo
   const fetchClases = async () => {
     try {
-      const res = await api.get(`/profesor/comisiones/${id}/clases`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get(
+        `/profesor/comisiones/${id}/clases`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setClases(res.data);
     } catch (err) {
       console.error("Error cargando clases:", err);
@@ -75,9 +76,10 @@ function DetalleMateria({ rol }) {
     //eliminar una clase de una comision
     if (!window.confirm("¿Queres eliminar esta clase?")) return;
     try {
-      await api.delete(`/profesor/comisiones/${id}/clases/${claseId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete(
+        `/profesor/comisiones/${id}/clases/${claseId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
       fetchClases();
     } catch (err) {
@@ -85,28 +87,28 @@ function DetalleMateria({ rol }) {
       alert("Error al eliminar la clase");
     }
   };
-
+  
   // Crear clase y tomar asistencia manual
-  const crearClaseManual = async (contenido) => {
-    try {
-      const res = await api.post(
-        `/profesor/comisiones/${id}/clases`,
-        { manual: true, contenido },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+const crearClaseManual = async (contenido) => {
+  try {
+    const res = await api.post(
+      `/profesor/comisiones/${id}/clases`,
+      { manual: true, contenido },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
-      const nuevaClaseId = res.data.clase_id;
-      if (!nuevaClaseId) {
-        alert("Error: no se pudo crear la clase manual");
-        return;
-      }
-
-      navigate(`/asistencia-manual/${id}/${nuevaClaseId}`);
-    } catch (err) {
-      console.error("Error creando clase manual:", err);
-      alert("Error al crear clase para asistencia manual");
+    const nuevaClaseId = res.data.clase_id;
+    if (!nuevaClaseId) {
+      alert("Error: no se pudo crear la clase manual");
+      return;
     }
-  };
+
+    navigate(`/asistencia-manual/${id}/${nuevaClaseId}`);
+  } catch (err) {
+    console.error("Error creando clase manual:", err);
+    alert("Error al crear clase para asistencia manual");
+  }
+};
 
   return (
     <div className="detalle-materia-container">
@@ -143,30 +145,18 @@ function DetalleMateria({ rol }) {
       {rol === "profesor" && (
         <div className="profesor-section">
           <h3>Crear nueva clase</h3>
-
-          <button
-            onClick={() => {
-              setTipoClase("qr");
-              setMostrarModal(true);
-            }}
-          >
-            Crear clase y mostrar código QR
+          <button onClick={() => { setTipoClase("qr"); setMostrarModal(true); }}>
+            Crear Clase y mostrar código QR
           </button>
 
-          <button
-            onClick={() => {
-              setTipoClase("manual");
-              setMostrarModal(true);
-            }}
-            style={{ marginLeft: "10px" }}
-          >
+          <button onClick={() => { setTipoClase("manual"); setMostrarModal(true); }} style={{ marginLeft: "10px" }}>
             Crear clase y tomar asistencia manual
           </button>
 
           {mostrarModal && (
             <div className="modal-overlay">
               <div className="modal-content">
-                <h3>Ingresá los contenidos de la clase</h3>
+                <h3>Ingresa los contenidos de esta clase</h3>
                 <textarea
                   rows="4"
                   value={contenidoClase}
@@ -174,24 +164,22 @@ function DetalleMateria({ rol }) {
                 />
                 <div className="modal-buttons">
                   <button
-                    onClick={() => {
-                      if (tipoClase === "manual") {
-                        crearClaseManual(contenidoClase);
-                      } else {
-                        crearClase(contenidoClase);
-                      }
-                      setMostrarModal(false);
-                      setContenidoClase("");
-                    }}
-                  >
-                    Confirmar
-                  </button>
-                  <button onClick={() => setMostrarModal(false)}>
-                    Cancelar
-                  </button>
-                </div>
+                  onClick={() => {
+                    if(tipoClase === "manual"){
+                      crearClaseManual(contenidoClase);
+                    } else {
+                      crearClase(contenidoClase);
+                    }
+                    setMostrarModal(false);
+                    setContenidoClase("");
+                  }}
+                >
+                  Confirmar
+                </button>
+                <button onClick={() => setMostrarModal(false)}>Cancelar</button>
               </div>
             </div>
+          </div>
           )}
 
           {qrUrl && (
@@ -205,7 +193,22 @@ function DetalleMateria({ rol }) {
           <ul className="clases-list">
             {clases.map((c) => (
               <li key={c.id}>
-                Clase - {new Date(c.fecha).toLocaleDateString()}
+                <div>
+                  <strong>
+                    Clase - {new Date(c.fecha).toLocaleDateString()}
+                    </strong>
+                    {c.contenido && (
+                      <span
+                        style={{
+                          marginLeft: "10px",
+                          color: "#555",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        ({c.contenido})
+                        </span> 
+                    )}
+                  </div>
                 <button onClick={() => eliminarClase(c.id)}>Eliminar</button>
               </li>
             ))}
