@@ -37,9 +37,9 @@ function DetalleClase() {
       alert("No hay datos para exportar");
       return;
     }
-  }
 
-  const datos = alumnos.map((a) => ({
+    // Datos para exportar
+    const datos = alumnos.map((a) => ({
       Apellido: a.apellido,
       Nombre: a.nombres,
       Estado: a.presente ? "Presente" : "Ausente",
