@@ -209,6 +209,9 @@ const crearClaseManual = async (contenido) => {
                         </span> 
                     )}
                   </div>
+                  <button onClick={() => navigate(`/clases/${c.id}/detalle`)}>
+                  Ver detalles
+                  </button>
                 <button onClick={() => eliminarClase(c.id)}>Eliminar</button>
               </li>
             ))}

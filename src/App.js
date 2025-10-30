@@ -11,6 +11,7 @@ import DetalleMateria from "./pages/DetalleMateria";
 import AsistenciaAlumno from "./pages/AsistenciaAlumno";
 import Dashboard from "./pages/Dashboard";
 import AsistenciaManual from "./pages/AsistenciaManual";
+import DetalleClase from "./pages/DetalleClase";
 
 function App() {
   const [rol, setRol] = useState(localStorage.getItem("rol") || null); //si hay una sesion anterior, se mantiene el rol
