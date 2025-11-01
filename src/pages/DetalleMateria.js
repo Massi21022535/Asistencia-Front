@@ -157,7 +157,7 @@ const exportarExcelMateria = () => {
             <th>Asistencias</th>
             <th>Total clases</th>
             <th>Porcentaje</th>
-            <th>Acciones</th>
+            <th>Notas</th>
           </tr>
         </thead>
         <tbody>
