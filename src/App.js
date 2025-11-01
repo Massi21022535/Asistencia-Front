@@ -12,6 +12,7 @@ import AsistenciaAlumno from "./pages/AsistenciaAlumno";
 import Dashboard from "./pages/Dashboard";
 import AsistenciaManual from "./pages/AsistenciaManual";
 import DetalleClase from "./pages/DetalleClase";
+import NotasAlumno from "./pages/NotasAlumno";
 
 function App() {
   const [rol, setRol] = useState(localStorage.getItem("rol") || null); //si hay una sesion anterior, se mantiene el rol
@@ -34,6 +35,7 @@ function App() {
             />
             <Route path="/asistencia-manual/:id/:claseId" element={<AsistenciaManual />} />
             <Route path="/clases/:id/detalle" element={<DetalleClase />} />
+            <Route path="/notas/:comisionId/:alumnoId" element={<NotasAlumno />} />
             <Route
               path="/"
               element={

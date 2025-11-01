@@ -157,6 +157,7 @@ const exportarExcelMateria = () => {
             <th>Asistencias</th>
             <th>Total clases</th>
             <th>Porcentaje</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -167,6 +168,14 @@ const exportarExcelMateria = () => {
               <td>{al.presentes}</td>
               <td>{al.total}</td>
               <td>{al.porcentaje}%</td>
+              <td>
+                <button
+                  className="nota-btn"
+                  onClick={() => navigate(`/notas/${id}/${al.alumno_id}`)}
+                >
+                  Ver Notas
+                </button>
+            </td>
             </tr>
           ))}
         </tbody>
