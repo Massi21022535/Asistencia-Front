@@ -141,6 +141,10 @@ const exportarExcelMateria = () => {
   saveAs(blob, nombreArchivo);
 };
 
+const formatearFecha = (fecha) => {
+  return fecha.split("T")[0].split("-").reverse().join("/");
+};
+
   return (
     <div className="detalle-materia-container">
       <button className="volver-btn" onClick={() => navigate(-1)}>
@@ -239,7 +243,7 @@ const exportarExcelMateria = () => {
               <li key={c.id}>
                 <div>
                   <strong>
-                    Clase - {new Date(c.fecha).toLocaleDateString()}
+                    Clase - {formatearFecha(c.fecha)}
                     </strong>
                     {c.contenido && (
                       <span
