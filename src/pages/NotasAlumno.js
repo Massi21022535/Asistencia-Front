@@ -146,13 +146,13 @@ function NotasAlumno() {
                 <td>{new Date(n.created_at).toLocaleDateString()}</td>
                 <td>
                   <button
-                    style={{ marginRight: "10px", padding: "8px 15px", width: "100px" }}
+                    style={{ marginRight: "10px", padding: "8px 15px" }}
                     onClick={() => editarNota(n)}
                   >
                     Editar
                   </button>
                   <button
-                    style={{ backgroundColor: "#b02a37", marginTop: "10px", padding: "8px 15px", width: "100px" }}
+                    style={{ backgroundColor: "#b02a37", marginTop: "10px", padding: "8px 15px" }}
                     onClick={() => eliminarNota(n.id)}
                   >
                     Eliminar
