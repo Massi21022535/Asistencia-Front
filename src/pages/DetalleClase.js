@@ -3,10 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import "./detalleMateria.css"; // reutilizamos los estilos
+import "./detalleMateria.css";
 
 function DetalleClase() {
-  const { id } = useParams(); // id de la clase
+  const { id } = useParams();
   const [alumnos, setAlumnos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [claseInfo, setClaseInfo] = useState(null);
@@ -49,13 +49,13 @@ function DetalleClase() {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Asistencias");
 
-    // Nombre del archivo con fecha
+    //nombre del archivo con fecha
     const fecha = claseInfo?.fecha
       ? new Date(claseInfo.fecha).toISOString().split("T")[0]
       : new Date().toISOString().split("T")[0];
     const nombreArchivo = `asistencias_${fecha}.xlsx`;
 
-    // Generar archivo
+    //generar archivo
     const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

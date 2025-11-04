@@ -12,7 +12,7 @@ function NotasAlumno() {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
-  // 🔹 Obtener notas del alumno
+  //obtener notas del alumno
   const fetchNotas = async () => {
     try {
       const res = await api.get(
@@ -29,7 +29,7 @@ function NotasAlumno() {
     fetchNotas();
   }, []);
 
-  // 🔹 Guardar nueva nota o actualizar existente
+  //guardar nueva nota o actualizar existente
   const guardarNota = async () => {
     if (!titulo || !valor) {
       alert("Completá ambos campos");
@@ -38,7 +38,7 @@ function NotasAlumno() {
 
     try {
       if (editando) {
-        // 🔸 Editar nota existente
+        //editar nota existente
         await api.put(
           `/profesor/comisiones/${comisionId}/alumnos/${alumnoId}/notas/${editando}`,
           { titulo, valor },
@@ -46,7 +46,7 @@ function NotasAlumno() {
         );
         setEditando(null);
       } else {
-        // 🔸 Crear nota nueva
+        //crear nota nueva
         await api.post(
           `/profesor/comisiones/${comisionId}/alumnos/${alumnoId}/notas`,
           { titulo, valor },
@@ -63,14 +63,14 @@ function NotasAlumno() {
     }
   };
 
-  // 🔹 Cargar datos para edición
+  //cargar datos para edición
   const editarNota = (nota) => {
     setTitulo(nota.titulo);
     setValor(nota.valor);
     setEditando(nota.id);
   };
 
-  // 🔹 Eliminar nota
+  //eliminar nota
   const eliminarNota = async (notaId) => {
     if (!window.confirm("¿Estás seguro que querés eliminar esta nota?")) return;
     try {

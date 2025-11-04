@@ -90,7 +90,7 @@ function DetalleMateria({ rol }) {
     }
   };
   
-  // Crear clase y tomar asistencia manual
+  //crear clase y tomar asistencia manual
 const crearClaseManual = async (contenido) => {
   try {
     const res = await api.post(
@@ -118,7 +118,7 @@ const exportarExcelMateria = () => {
     return;
   }
 
-  // Crear los datos para exportar
+  //crear los datos para exportar
   const datos = alumnos.map((a) => ({
     Apellido: a.apellido,
     Nombre: a.nombres,
@@ -131,7 +131,7 @@ const exportarExcelMateria = () => {
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Asistencias Materia");
 
-  // Nombre dinámico: materia_ID.xlsx
+  //nombre archivo
   const nombreArchivo = `asistencias_materia_${id}.xlsx`;
 
   const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
