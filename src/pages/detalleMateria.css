@@ -153,6 +153,7 @@
   border: 1px solid #ccc;
   border-radius: 6px;
   resize: none;
+  box-sizing: border-box;
 }
 
 .modal-buttons {
